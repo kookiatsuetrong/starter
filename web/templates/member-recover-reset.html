@@ -1,0 +1,47 @@
+<#include "header.html">
+
+<section class="container">
+	<form method="post">
+		<h3>Create New Password</h3>
+		<section class="form-floating">
+			<input name="password"
+				   type="password"
+				   id="password"
+				   class="form-control"
+				   autocomplete="off"
+				   autofocus
+				   required
+				   placeholder="New Password" />
+			<label for="password">New Password</label>
+		</section>
+				
+		<section class="form-floating">
+			<input name="confirm"
+				   type="password"
+				   id="confirm"
+				   class="form-control"
+				   autocomplete="off"
+				   autofocus
+				   required
+				   placeholder="Confirm Password" />
+			<label for="confirm">Confirm Password</label>
+		</section>
+		
+		<input type="hidden" name="key" value="${secret ! ''}" />
+		<input type="hidden" name="reset" value="${code ! ''}" />
+
+		<button class="btn btn-primary">Create New Password</button>
+		<a class="btn btn-light" href="/">Cancel</a>
+	</form>
+</section>
+
+<style>
+	form {
+		max-width: 320px;
+		margin-bottom: 2rem;
+	}
+</style>
+
+<#include "footer.html">
+
+

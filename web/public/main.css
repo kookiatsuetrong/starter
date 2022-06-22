@@ -1,0 +1,46 @@
+:root {
+	--brand-background: #48F;
+}
+
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+a {
+	text-decoration: none;
+}
+
+footer {
+	min-height: 16rem;
+	background: #444;
+	margin-top: auto;
+	color: white;
+	padding-top: 1rem;
+}
+footer a {
+	color: white;
+	transition: margin .5s ease-out;
+}
+footer a:hover {
+	color: #eee;
+	margin-left: .5rem;
+}
+footer ul {
+	list-style-type: none;
+	padding-left: 0;
+	line-height: 2rem;
+}
+
+.form-floating {
+	margin-bottom: 0.5rem;
+}
+.form-floating > .form-control {
+	height: calc(2.6rem + 2px);
+	border-color: #ccc;
+}
+.form-floating > label {
+	padding-top: .5rem;
+	color: #888;
+}

@@ -1,0 +1,61 @@
+<#include "header.html">
+
+<section class="container">
+	<form method="post">
+		<h3>Register</h3>
+		<section class="form-floating">
+			<input name="email"
+				   type="email"
+				   id="email"
+				   class="form-control"
+				   autocomplete="off"
+				   autofocus
+				   required
+				   placeholder="Your Email" />
+			<label for="email">Your Email</label>
+		</section>
+		
+		<section class="form-floating">
+			<input name="password"
+				   type="password"
+				   id="password"
+				   class="form-control"
+				   autocomplete="off"
+				   required
+				   placeholder="Your Password" />
+			<label for="password">Your Password</label>
+		</section>
+
+		<section class="form-floating">
+			<input name="first-name"
+				   id="first-name"
+				   class="form-control"
+				   autocomplete="off"
+				   required
+				   placeholder="Your First Name" />
+			<label for="first-name">First Name</label>
+		</section>
+		
+		<section class="form-floating">
+			<input name="family-name"
+				   id="family-name"
+				   class="form-control"
+				   autocomplete="off"
+				   required
+				   placeholder="Your Family Name" />
+			<label for="last-name">Family Name</label>
+		</section>
+		
+		<button class="btn btn-primary">Register</button>
+		<a class="btn btn-light" href="/">Cancel</a>
+	</form>
+</section>
+
+<style>
+	form {
+		max-width: 320px;
+		margin-bottom: 2rem;
+	}
+</style>
+
+<#include "footer.html">
