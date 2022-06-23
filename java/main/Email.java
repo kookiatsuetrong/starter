@@ -11,6 +11,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.InternetAddress;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 class Email {	
 	static String senderName = "";
@@ -18,27 +20,24 @@ class Email {
 	
 	SettingRepository repository;
 	
-	Email() {
+	void sendActivationCode(
+			String target,
+			String secret,
+			int code) {
 		repository = Start.context.getBean(SettingRepository.class);
 		Iterable<Setting> all = repository.findAll();
 		for (Setting s : all) {
 			if ("base-domain"  .equals(s.name)) baseDomain = s.value;
 			if ("platform-name".equals(s.name)) senderName = s.value;
 		}
-	}
-	
-	void sendActivationCode(
-			String target,
-			String secret,
-			int code) {
 		String content = "Welcome to " + senderName + ". ";
 		content += "Please click this link to activate your account. ";
 		content += "<a href='" + baseDomain + "/member-activate";
 		content += "?secret=" + secret + "&code=" + code;
 		content += "'>Activate Your Account</a>";
 		
-		EmailSender sender = new EmailSender(target, 
-									"Member Activation", content);
+		EmailSender sender = new EmailSender();
+		sender.prepare(target, "Member Activation", content);
 		sender.start();
 	}
 	
@@ -46,14 +45,19 @@ class Email {
 			String target,
 			String secret,
 			int code) {
+		Iterable<Setting> all = repository.findAll();
+		for (Setting s : all) {
+			if ("base-domain"  .equals(s.name)) baseDomain = s.value;
+			if ("platform-name".equals(s.name)) senderName = s.value;
+		}
 		String content = "";
 		content += "Please click this link to reset your password. ";
 		content += "<a href='" + baseDomain + "/member-recover-reset";
 		content += "?secret=" + secret + "&code=" + code;
 		content += "'>Reset Your Password</a>";
 		
-		EmailSender sender = new EmailSender(target, 
-									"Reset Password", content);
+		EmailSender sender = new EmailSender();
+		sender.prepare(target, "Reset Password", content);
 		sender.start();
 	}
 }
@@ -68,7 +72,7 @@ class EmailSender extends Thread {
 	String senderPassword = "";
 	String baseDomain     = "";
 	 
-	EmailSender(String t, String s, String c) {
+	void prepare(String t, String s, String c) {
 		target  = t;
 		subject = s;
 		content = c;
@@ -97,6 +101,7 @@ class EmailSender extends Thread {
 	}
 	
 	void send() {
+
 		try {
 			Properties p = new Properties();
 			p.put("mail.smtp.auth", "true");
