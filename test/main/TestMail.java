@@ -4,7 +4,7 @@ import java.util.Date;
 public class TestMail {
 	
 	public void testSendSampleEmail() {
-		Start.main(null);
+		// Start.main(null);
 		
 		EmailSender e = new EmailSender("beer@fullcodehub.com",
 								"The Subject", 

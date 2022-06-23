@@ -11,7 +11,7 @@
 	
 	<repositories>
 		<repository>
-			<id>spring-milestones</id>
+			<id>spring</id>
 			<url>https://repo.spring.io/milestone</url>
 		</repository>
 	</repositories>
@@ -83,6 +83,12 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<runOrder>alphabetical</runOrder>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

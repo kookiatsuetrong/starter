@@ -19,7 +19,7 @@ class Email {
 	SettingRepository repository;
 	
 	Email() {
-		repository = Common.context.getBean(SettingRepository.class);
+		repository = Start.context.getBean(SettingRepository.class);
 		Iterable<Setting> all = repository.findAll();
 		for (Setting s : all) {
 			if ("base-domain"  .equals(s.name)) baseDomain = s.value;
@@ -73,7 +73,7 @@ class EmailSender extends Thread {
 		subject = s;
 		content = c;
 		
-		repository = Common.context.getBean(SettingRepository.class);
+		repository = Start.context.getBean(SettingRepository.class);
 		
 		Iterable<Setting> all = repository.findAll();
 		for (Setting e : all) {
@@ -126,7 +126,7 @@ class EmailSender extends Thread {
 			System.out.println(e);
 			success = false;
 		}
-	}	
+	}
 }
 
 class Detail extends Authenticator {
@@ -137,7 +137,7 @@ class Detail extends Authenticator {
 
 	@Override protected PasswordAuthentication 
 	getPasswordAuthentication() {
-		repository = Common.context.getBean(SettingRepository.class);
+		repository = Start.context.getBean(SettingRepository.class);
 		Iterable<Setting> all = repository.findAll();
 		for (Setting e : all) {
 			if ("email-address" .equals(e.name)) senderAddress  = e.value;

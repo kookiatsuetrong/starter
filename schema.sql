@@ -10,7 +10,7 @@ create table settings(
 );
 
 insert into settings(name,value) values('base-domain', 'http://127.0.0.1:60000');
-insert into settings(name,value) values('platform-name',  'Platform Name');
+insert into settings(name,value) values('platform-name', 'Platform Name');
 
 insert into settings(name,value) values('email-server',   'email-server');
 insert into settings(name,value) values('email-port',     '587');

@@ -1,5 +1,6 @@
 package main;
 import java.security.MessageDigest;
+import org.springframework.stereotype.Service;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.ApplicationContext;
@@ -9,11 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 class Start {
 	public static void main(String[] data) {
-		if (Common.running == false) {
-			Common.context = SpringApplication.run(Initialize.class);
-			Common.running = true;
-		}
+		context = SpringApplication.run(Initialize.class);
 	}
+	static ApplicationContext context;
 }
 
 @SpringBootApplication
@@ -31,9 +30,6 @@ class Initialize {
 }
 
 class Common {
-	
-	static ApplicationContext context;
-	static boolean running;
 		
 	static String encrypt(String s) {
 		try {

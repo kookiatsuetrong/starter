@@ -5,9 +5,8 @@ import data.Activate;
 public class TestRegister {
 	
 	public TestRegister() {
-		Start.main(null);
-		repository = Common.context.getBean(MemberRepository.class);
-		activateRepository = Common.context.getBean(ActivateRepository.class);
+		repository = Start.context.getBean(MemberRepository.class);
+		activateRepository = Start.context.getBean(ActivateRepository.class);
 	}
 	
 	MemberRepository repository;
@@ -52,5 +51,4 @@ public class TestRegister {
 		}
 		assert success;
 	}
-
 }
