@@ -1,4 +1,4 @@
-## Spring Boot / Spring Data JDBC
+## Spring 6.0 / Spring Boot 3.0 Web Application
 
 This project is a example
 Spring Boot web service
