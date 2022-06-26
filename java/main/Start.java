@@ -1,6 +1,5 @@
 package main;
 import java.security.MessageDigest;
-import org.springframework.stereotype.Service;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.ApplicationContext;
@@ -20,9 +19,7 @@ class Initialize {
 	
 	@Bean
 	DriverManagerDataSource createDataSource() {
-		var source = new DriverManagerDataSource();
-		source.setUrl(connectionString);
-		return source;
+		return new DriverManagerDataSource(connectionString);
 	}
 	
 	@Value("${my.connection.string}")

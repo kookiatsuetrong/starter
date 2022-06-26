@@ -14,5 +14,5 @@ public class TestDatabase {
 		Iterable<Setting> result = repository.findAll();
 		assert result != null;
 	}
-	
+
 }

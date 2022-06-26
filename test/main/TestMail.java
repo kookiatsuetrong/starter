@@ -2,7 +2,7 @@ package main;
 import java.util.Date;
 
 public class TestMail {
-	
+
 	public void testSendSampleEmail() {
 		// Start.main(null);
 		
