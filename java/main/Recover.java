@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 class Recover {	
 	@Autowired MemberRepository repository;
 	@Autowired ResetRepository resetRepository;
+	@Autowired EmailSettings settings;
 	
 	@GetMapping("/member-recover")
 	String showRecoverPage(HttpSession session) {
@@ -41,7 +42,7 @@ class Recover {
 		r.secret = Common.random(12);
 		resetRepository.save(r);
 		
-		Email e = new Email();
+		Email e = new Email(settings);
 		e.sendResetCode(m.email, r.secret, r.code);
 		model.addAttribute("title",  "Reset Code");
 		model.addAttribute("detail", "The reset code has been sent to " +

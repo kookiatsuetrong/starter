@@ -12,58 +12,9 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.InternetAddress;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
-class Email {	
-	static String senderName = "";
-	static String baseDomain = "";
-	
-	SettingRepository repository;
-	
-	void sendActivationCode(
-			String target,
-			String secret,
-			int code) {
-		repository = Start.context.getBean(SettingRepository.class);
-		Iterable<Setting> all = repository.findAll();
-		for (Setting s : all) {
-			if ("base-domain"  .equals(s.name)) baseDomain = s.value;
-			if ("platform-name".equals(s.name)) senderName = s.value;
-		}
-		String content = "Welcome to " + senderName + ". ";
-		content += "Please click this link to activate your account. ";
-		content += "<a href='" + baseDomain + "/member-activate";
-		content += "?secret=" + secret + "&code=" + code;
-		content += "'>Activate Your Account</a>";
-		
-		EmailSender sender = new EmailSender();
-		sender.prepare(target, "Member Activation", content);
-		sender.start();
-	}
-	
-	void sendResetCode(
-			String target,
-			String secret,
-			int code) {
-		Iterable<Setting> all = repository.findAll();
-		for (Setting s : all) {
-			if ("base-domain"  .equals(s.name)) baseDomain = s.value;
-			if ("platform-name".equals(s.name)) senderName = s.value;
-		}
-		String content = "";
-		content += "Please click this link to reset your password. ";
-		content += "<a href='" + baseDomain + "/member-recover-reset";
-		content += "?secret=" + secret + "&code=" + code;
-		content += "'>Reset Your Password</a>";
-		
-		EmailSender sender = new EmailSender();
-		sender.prepare(target, "Reset Password", content);
-		sender.start();
-	}
-}
-
-class EmailSender extends Thread {
-	SettingRepository repository;
+@Service
+class EmailSettings {
 	
 	String senderName     = "";
 	String senderServer   = "";
@@ -71,14 +22,11 @@ class EmailSender extends Thread {
 	String senderAddress  = "";
 	String senderPassword = "";
 	String baseDomain     = "";
+	
+	SettingRepository repository;
 	 
-	void prepare(String t, String s, String c) {
-		target  = t;
-		subject = s;
-		content = c;
-		
-		repository = Start.context.getBean(SettingRepository.class);
-		
+	EmailSettings (SettingRepository repository) {
+		this.repository = repository;
 		Iterable<Setting> all = repository.findAll();
 		for (Setting e : all) {
 			if ("base-domain"   .equals(e.name)) baseDomain     = e.value;
@@ -89,6 +37,57 @@ class EmailSender extends Thread {
 			if ("email-port"    .equals(e.name)) senderPort     = e.value;
 		}
 	}
+}
+
+class Email {
+	
+	Email(EmailSettings settings) {
+		this.settings = settings;
+	}
+	
+	EmailSettings settings;
+	
+	void sendActivationCode(
+			String target,
+			String secret,
+			int code) {
+		String content = "Welcome to " + settings.senderName + ". ";
+		content += "Please click this link to activate your account. ";
+		content += "<a href='" + settings.baseDomain + "/member-activate";
+		content += "?secret=" + secret + "&code=" + code;
+		content += "'>Activate Your Account</a>";
+		
+		EmailSender sender = new EmailSender(settings,
+									target, "Member Activation", content);
+		sender.start();
+	}
+	
+	void sendResetCode(
+			String target,
+			String secret,
+			int code) {
+		String content = "";
+		content += "Please click this link to reset your password. ";
+		content += "<a href='" + settings.baseDomain + "/member-recover-reset";
+		content += "?secret=" + secret + "&code=" + code;
+		content += "'>Reset Your Password</a>";
+		
+		EmailSender sender = new EmailSender(settings,
+									target, "Reset Password", content);
+		sender.start();
+	}
+}
+
+class EmailSender extends Thread {
+	
+	EmailSender(EmailSettings settings, String t, String s, String c) {
+		this.settings = settings;
+		target  = t;
+		subject = s;
+		content = c;
+	}
+	
+	EmailSettings settings;
 	
 	String target;
 	String subject;
@@ -96,24 +95,24 @@ class EmailSender extends Thread {
 	
 	boolean success = true;
 	
-	@Override public void run() {	
+	@Override public void run() {
 		send();
 	}
 	
 	void send() {
-
+		
 		try {
 			Properties p = new Properties();
 			p.put("mail.smtp.auth", "true");
 			p.put("mail.smtp.starttls.enable", "true");
-			p.put("mail.smtp.host", senderServer);
-			p.put("mail.smtp.port", senderPort);
+			p.put("mail.smtp.host", settings.senderServer);
+			p.put("mail.smtp.port", settings.senderPort);
 			p.put("mail.smtp.ssl.protocols", "TLSv1.2");
-			Session session = Session.getInstance(p, new Detail());
+			Session session = Session.getInstance(p, new Detail(settings));
 
 			Message message = new MimeMessage(session);
-			String sender = senderName + "<" + 
-							senderAddress + ">";
+			String sender = settings.senderName + "<" + 
+							settings.senderAddress + ">";
 			message.setFrom(new InternetAddress(sender));
 			message.setRecipients(
 				Message.RecipientType.TO, 
@@ -127,28 +126,22 @@ class EmailSender extends Thread {
 
 			message.setContent(part);
 			Transport.send(message);
-		} catch (Exception e) {
-			System.out.println(e);
+		} catch (Exception x) {
 			success = false;
 		}
 	}
 }
 
 class Detail extends Authenticator {
-
-	SettingRepository repository;
-	String senderAddress  = "";
-	String senderPassword = "";
+	Detail(EmailSettings settings) {
+		this.settings = settings;
+	}
+	EmailSettings settings;
 
 	@Override protected PasswordAuthentication 
 	getPasswordAuthentication() {
-		repository = Start.context.getBean(SettingRepository.class);
-		Iterable<Setting> all = repository.findAll();
-		for (Setting e : all) {
-			if ("email-address" .equals(e.name)) senderAddress  = e.value;
-			if ("email-password".equals(e.name)) senderPassword = e.value;
-		}
 		return new PasswordAuthentication(
-					senderAddress, senderPassword);
+					settings.senderAddress,
+					settings.senderPassword);
 	}
 }

@@ -16,6 +16,7 @@ class Register {
 	
 	@Autowired MemberRepository repository;
 	@Autowired ActivateRepository activateRepository;
+	@Autowired EmailSettings settings;
 	
 	@RequestMapping("/member-register")
 	String showRegisterPage(HttpSession session) {
@@ -65,7 +66,7 @@ class Register {
 				a.created  = Instant.now();
 				activateRepository.save(a);
 
-				Email e = new Email();
+				Email e = new Email(settings);
 				e.sendActivationCode(m.email, a.secret, a.code);
 			} catch (Exception e) {
 				// member_register_duplicated_email
