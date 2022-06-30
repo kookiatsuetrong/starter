@@ -40,6 +40,18 @@ class Register {
 			@RequestParam("family-name") String family,
 			String password,
 			String numeric) {
+		
+		// member_register_invalid_email
+		// member_register_invalid_first_name
+		// member_register_invalid_last_name
+		// member_register_invalid_password
+		// member_register_invalid_numeric_code
+		String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
+
+		boolean p0 = email   .matches("^(.+)@(.+)$");
+		boolean p1 = password.matches(pattern);
+		boolean p2 = first   .matches("^.{2,20}$");
+		boolean p3 = family  .matches("^.{2,20}$");
 		boolean p4 = true;
 		String secret = (String)session.getAttribute("numeric");
 		if (secret == null) {
@@ -49,17 +61,7 @@ class Register {
 		if (secret.equals(numeric) == false) {
 			p4 = false;
 		}
-		
-		// member_register_invalid_email
-		// member_register_invalid_first_name
-		// member_register_invalid_last_name
-		// member_register_invalid_password
-		String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
-
-		boolean p0 = email   .matches("^(.+)@(.+)$");
-		boolean p1 = password.matches(pattern);
-		boolean p2 = first   .matches("^.{2,20}$");
-		boolean p3 = family  .matches("^.{2,20}$");
+		session.removeAttribute("numeric");
 		
 		boolean success = false;
 		
