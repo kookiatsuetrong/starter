@@ -1,11 +1,11 @@
 package main;
-import java.awt.Color;
 import java.awt.Font;
+import java.awt.Color;
+import java.util.Base64;
 import java.awt.Graphics2D;
+import java.security.MessageDigest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.security.MessageDigest;
-import java.util.Base64;
 import javax.imageio.ImageIO;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
@@ -83,9 +83,9 @@ class Common {
 		g.dispose();
 		
 		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(image, "PNG", baos);
-			byte[] b = baos.toByteArray();
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			ImageIO.write(image, "PNG", output);
+			byte[] b = output.toByteArray();
 			return Base64.getEncoder().encodeToString(b);
 		} catch (Exception e) { }
 		return "";
