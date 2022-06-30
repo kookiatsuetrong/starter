@@ -4,7 +4,6 @@ import java.util.Date;
 public class TestMail {
 
 	public void testSendSampleEmail() {
-		// Start.main(null);
 		EmailSettings s = Start.context.getBean(EmailSettings.class);
 		EmailSender e = new EmailSender(s,
 								"beer@fullcodehub.com",

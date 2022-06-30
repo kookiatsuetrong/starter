@@ -34,6 +34,7 @@ class Register {
 			@RequestParam("first-name") String first,
 			@RequestParam("family-name") String family,
 			String password) {
+		// TODO: Check session before
 		// member_register_invalid_email
 		// member_register_invalid_first_name
 		// member_register_invalid_last_name

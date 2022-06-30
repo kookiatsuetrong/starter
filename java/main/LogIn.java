@@ -43,6 +43,10 @@ class LogIn {
 								"Please click <a href='/member-login'>" +
 								"here</a> to try again.");
 		} else {
+			// Without Activation
+			// success = true;
+			// session.setAttribute("member", m);
+			
 			switch (m.status) {
 				case "registered":					
 					model.addAttribute("title",  "Unable to log in");
