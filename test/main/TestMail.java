@@ -1,6 +1,7 @@
 package main;
 import java.util.Date;
 
+/*
 public class TestMail {
 
 	public void testSendSampleEmail() {
@@ -16,3 +17,4 @@ public class TestMail {
 		assert e.success;
 	}
 }
+*/

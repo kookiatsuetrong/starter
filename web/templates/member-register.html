@@ -46,6 +46,19 @@
 			<label for="last-name">Family Name</label>
 		</section>
 		
+		<section class="form-floating">
+			<input name="numeric"
+				   id="numeric"
+				   class="form-control"
+				   autocomplete="off"
+				   required
+				   placeholder="Numeric Code" />
+			<label for="numeric">Numeric Code
+				<img class="numeric-code"
+					 src="data:image/png;base64, ${numeric}" />
+			</label>
+		</section>		
+		
 		<button class="btn btn-primary">Register</button>
 		<a class="btn btn-light" href="/">Cancel</a>
 	</form>
@@ -56,6 +69,10 @@
 		max-width: 320px;
 		margin-bottom: 2rem;
 	}
+	.numeric-code {
+		margin-top: -0.25rem;
+	}
+	
 </style>
 
 <#include "footer.html">

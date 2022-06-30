@@ -46,3 +46,16 @@ create table resets
 	secret   character varying(200) not null,
 	created  timestamp default now()
 );
+
+/*
+
+base-currency
+
+deposit
+withdraw
+buy
+sell
+close
+
+*/
+

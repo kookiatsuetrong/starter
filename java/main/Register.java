@@ -19,9 +19,13 @@ class Register {
 	@Autowired EmailSettings settings;
 	
 	@RequestMapping("/member-register")
-	String showRegisterPage(HttpSession session) {
+	String showRegisterPage(HttpSession session, Model model) {
 		Member m = (Member)session.getAttribute("member");
 		if (m == null) {
+			String w = Common.getNumericRandom(4);
+			session.setAttribute("numeric", w);
+			String photoCode = Common.createPhotoCode(w);
+			model.addAttribute("numeric", photoCode);
 			return "member-register";
 		} else {
 			return "redirect:/member-profile";
@@ -30,11 +34,22 @@ class Register {
 	
 	@PostMapping("/member-register")
 	String registerNewMember(
+			HttpSession session,
 			String email,
 			@RequestParam("first-name") String first,
 			@RequestParam("family-name") String family,
-			String password) {
-		// TODO: Check session before
+			String password,
+			String numeric) {
+		boolean p4 = true;
+		String secret = (String)session.getAttribute("numeric");
+		if (secret == null) {
+			p4 = false;
+			secret = "";
+		}
+		if (secret.equals(numeric) == false) {
+			p4 = false;
+		}
+		
 		// member_register_invalid_email
 		// member_register_invalid_first_name
 		// member_register_invalid_last_name
@@ -48,7 +63,7 @@ class Register {
 		
 		boolean success = false;
 		
-		if (p0 && p1 && p2 && p3) {
+		if (p0 && p1 && p2 && p3 && p4) {
 			success = true;
 		}
 
