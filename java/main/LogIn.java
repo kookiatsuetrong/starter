@@ -9,29 +9,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
-class LogIn {
-	
+class LogIn 
+{	
 	@Autowired MemberRepository repository;
 	
 	@RequestMapping("/member-login")
-	String showLogInPage(HttpSession session) {
+	String showLogInPage(HttpSession session) 
+	{
 		Member m = (Member)session.getAttribute("member");
-		if (m == null) {
-			return "member-login";
-		} else {
-			return "redirect:/member-profile";
-		}
+		return m == null ?	"member-login" :
+							"redirect:/member-profile";
 	}
 	
 	@PostMapping("/member-login")
 	String checkPassword(
-			String email, 
-			String password,
-			HttpSession session,
-			Model model) {
-		
-		// TODO: Check session before continue
-		
+				HttpSession session,
+				String email, 
+				String password,
+				Model model) 
+	{	
+		Member current = (Member)session.getAttribute("member");
+		if (current != null) {
+			return "redirect:/member-profile";
+		}
+				
 		Member m = repository.findByEmail(email);
 		
 		boolean success = false;
@@ -53,16 +54,18 @@ class LogIn {
 					model.addAttribute("detail", "Please activate from your " +
 												"email before continue.");
 					break;
+
+				case "member":
+				case "staff":
+				case "administrator":
 				default:
 					success = true;
 					session.setAttribute("member", m);
 			}
 		}
 		
-		if (success) {
-			return "redirect:/member-profile";
-		} else {
-			return "display";
-		}
+		return success ? "redirect:/member-profile" :
+						 "display";
 	}
+	
 }

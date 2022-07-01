@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-class Start {
+class Start 
+{
 	public static void main(String[] data) {
 		context = SpringApplication.run(Initialize.class);
 	}
@@ -22,8 +23,8 @@ class Start {
 }
 
 @SpringBootApplication
-class Initialize {
-	
+class Initialize 
+{	
 	@Bean
 	DriverManagerDataSource createDataSource() {
 		return new DriverManagerDataSource(connectionString);
@@ -33,9 +34,10 @@ class Initialize {
 	String connectionString;
 }
 
-class Common {
-		
-	static String encrypt(String s) {
+class Common 
+{		
+	static String encrypt(String s)
+	{
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-512");
 			byte[] data = digest.digest(s.getBytes());
@@ -52,11 +54,13 @@ class Common {
 		return "Encryption Error";
 	}
 	
-	static String random(int n) {
+	static String random(int n)
+	{
 		return random(n, "0123456789ABCEDF");
 	}
 	
-	static String random(int n, String p) {
+	static String random(int n, String p)
+	{
 		char[] pattern = p.toCharArray();
 		String s = "";
 		for (int i = 0; i < n; i++) {
@@ -66,11 +70,13 @@ class Common {
 		return s;
 	}
 	
-	static String getNumericRandom(int n) {
+	static String getNumericRandom(int n)
+	{
 		return random(n, "0123456789");
 	}
 	
-	static String createPhotoCode(String s) {
+	static String createPhotoCode(String s)
+	{
 		int width = 42;
 		int height = 16;
 		BufferedImage image = new BufferedImage(width, height,

@@ -9,29 +9,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
-class Profile {
-	
+class Profile 
+{
 	@Autowired ActivateRepository activateRepository;
 	@Autowired MemberRepository memberRepository;
 	
 	@RequestMapping("/member-activate")
-	String activate(String secret, String code, Model model) {
-		// TODO: Check session before
+	String activate(String secret, String code, Model model) 
+	{
+		if (secret == null) secret = "";
+		if (code == null) code = "";
+		
 		boolean success = true;
 		
 		Activate t = activateRepository.findBySecret(secret);
+		Member m = null;
 		if (t == null) {
 			success = false;
 		} else {
-			Member u = memberRepository.findByCode(t.member);
-			if (u == null) {
-				success = false;
-			} else {
-				u.status = "member";
-				Member v = memberRepository.save(u);
-				assert v.status.equals("member");
-				activateRepository.deleteById(t.code);
-			}
+			m = memberRepository.findByCode(t.member);
+		}
+		
+		if (m == null) {
+			success = false;
+		} else {
+			m.status = "member";
+			Member v = memberRepository.save(m);
+			activateRepository.deleteById(t.code);
 		}
 
 		if (success) {
@@ -45,7 +49,8 @@ class Profile {
 	}
 		
 	@RequestMapping("/member-profile")
-	String showProfilePage(HttpSession session, Model model) {
+	String showProfilePage(HttpSession session, Model model)
+	{
 		Member m = (Member)session.getAttribute("member");
 		if (m == null) {
 			return "redirect:/member-login";
@@ -56,7 +61,8 @@ class Profile {
 	}
 	
 	@RequestMapping("/member-logout")
-	String showLogOutPage(HttpSession session, Model model) {
+	String showLogOutPage(HttpSession session, Model model)
+	{
 		session.removeAttribute("member");
 		session.invalidate();
 		model.addAttribute("title", "Logged Out");

@@ -10,32 +10,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
-class Recover {	
+class Recover
+{	
 	@Autowired MemberRepository repository;
 	@Autowired ResetRepository resetRepository;
 	@Autowired EmailSettings settings;
 	
 	@GetMapping("/member-recover")
-	String showRecoverPage(HttpSession session) {
-		// TODO: Check session before continue
-		Member m = (Member)session.getAttribute("member");
-		if (m == null) {
-			return "member-recover";
-		} else {
-			return "redirect:/member-profile";
-		}
+	String showRecoverPage(HttpSession session)
+	{
+		Member m = (Member)session.getAttribute("member");	
+		return m == null ?
+				"member-recover" :
+				"redirect:/member-profile";
 	}
 	
 	@PostMapping("/member-recover")
-	String sendResetCode(String email, HttpSession session, Model model) {
-		// TODO: Check session before continue
-		
+	String sendResetCode(String email, HttpSession session, Model model)
+	{
 		Member m = repository.findByEmail(email);
 		if (m == null) {
 			model.addAttribute("title",  "Recover Error");
 			model.addAttribute("detail", "Unable to find your email.");
 			return "display";
 		}
+		
+		// check the account has been activated?
 		
 		Reset r = new Reset();
 		r.member = m.code;
@@ -51,23 +51,40 @@ class Recover {
 	}
 	
 	@GetMapping("/member-recover-reset")
-	String showCreateNewPassword(String secret, String code, Model model) {
-		// TODO: Check session before continue
+	String showResetPage(
+				HttpSession session,
+				String secret, 
+				String code, 
+				Model model)
+	{	
+		Member current = (Member)session.getAttribute("member");
+		if (current != null) {
+			return "redirect:/member-profile";
+		}
+		
 		model.addAttribute("secret", secret);
 		model.addAttribute("code", code);
-		
 		return "member-recover-reset";
 	}
 		
 	@PostMapping("/member-recover-reset")
 	String createNewPassword(
-			String password,
-			String confirm,
-			String key,
-			int reset,
-			Model model) {
+				HttpSession session,
+				String password,
+				String confirm,
+				String key,
+				int reset,
+				Model model)
+	{	
+		Member current = (Member)session.getAttribute("member");
+		if (current != null) {
+			return "redirect:/member-profile";
+		}
 		
-		// TODO: Check session before continue
+		if (password == null) password = "";
+		if (confirm == null) confirm = "";
+		if (key == null) key = "";
+		
 		Reset r = resetRepository.findBySecret(key);
 		if (r == null || r.code != reset) {
 			model.addAttribute("title",  "Reset Code");
@@ -75,7 +92,23 @@ class Recover {
 			return "display";
 		}
 		
+		
+		boolean success = true;
+		
+		String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
+		if (password.matches(pattern)) {
+			// nothing
+		} else {
+			success = false;
+		}
+		
 		if (password.equals(confirm)) {
+			// nothing
+		} else {
+			success = true;
+		}
+		
+		if (success) {
 			resetRepository.deleteById(r.code);
 			Member m = repository.findByCode(r.member);
 			m.password = Common.encrypt(password);

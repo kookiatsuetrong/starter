@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.boot.web.servlet.error.ErrorController;
 
 @Controller
-class Web {
+class Web
+{
 	@RequestMapping("/")
-	String showHome(HttpSession session, Model model) {
+	String showHome(HttpSession session, Model model)
+	{
 		Object o = session.getAttribute("member");
 		model.addAttribute("member", o);
 		return "/home";
@@ -16,9 +18,11 @@ class Web {
 }
 
 @Controller
-class Error implements ErrorController {
+class Error implements ErrorController
+{
 	@RequestMapping("/error")
-	String show(HttpSession session, Model model) {
+	String show(HttpSession session, Model model)
+	{
 		Object o = session.getAttribute("member");
 		model.addAttribute("member", o);
 		

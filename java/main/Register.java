@@ -19,7 +19,8 @@ class Register {
 	@Autowired EmailSettings settings;
 	
 	@RequestMapping("/member-register")
-	String showRegisterPage(HttpSession session, Model model) {
+	String showRegisterPage(HttpSession session, Model model)
+	{
 		Member m = (Member)session.getAttribute("member");
 		if (m == null) {
 			String w = Common.getNumericRandom(4);
@@ -34,12 +35,23 @@ class Register {
 	
 	@PostMapping("/member-register")
 	String registerNewMember(
-			HttpSession session,
-			String email,
-			@RequestParam("first-name") String first,
-			@RequestParam("family-name") String family,
-			String password,
-			String numeric) {
+				HttpSession session,
+				String email,
+				@RequestParam("first-name") String first,
+				@RequestParam("family-name") String family,
+				String password,
+				String numeric) 
+	{	
+		Member current = (Member)session.getAttribute("member");
+		if (current != null) {
+			return "redirect:/member-profile";
+		}
+		
+		if (email == null) email = "";
+		if (first == null) first = "";
+		if (family == null) family = "";
+		if (password == null) password = "";
+		if (numeric == null) numeric = "";
 		
 		// member_register_invalid_email
 		// member_register_invalid_first_name
@@ -101,7 +113,8 @@ class Register {
 	}
 	
 	@RequestMapping("/member-register-success")
-	String showSuccess(Model m) {
+	String showSuccess(Model m) 
+	{
 		m.addAttribute("title",  "Registration Successfully");
 		m.addAttribute("detail", "Please go to your mailbox to activate " +
 								 "your account.");
@@ -109,7 +122,8 @@ class Register {
 	}
 	
 	@RequestMapping("/member-register-error")
-	String showError(Model m) {
+	String showError(Model m) 
+	{
 		m.addAttribute("title",  "Registration Failed");
 		m.addAttribute("detail", "Unable to register with your email.");
 		return "display";

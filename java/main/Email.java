@@ -14,8 +14,8 @@ import jakarta.mail.internet.InternetAddress;
 import org.springframework.stereotype.Service;
 
 @Service
-class EmailSettings {
-	
+class EmailSettings
+{	
 	String senderName     = "";
 	String senderServer   = "";
 	String senderPort     = "";
@@ -25,7 +25,8 @@ class EmailSettings {
 	
 	SettingRepository repository;
 	 
-	EmailSettings (SettingRepository repository) {
+	EmailSettings (SettingRepository repository)
+	{
 		this.repository = repository;
 		Iterable<Setting> all = repository.findAll();
 		for (Setting e : all) {
@@ -39,9 +40,10 @@ class EmailSettings {
 	}
 }
 
-class Email {
-	
-	Email(EmailSettings settings) {
+class Email
+{
+	Email(EmailSettings settings)
+	{
 		this.settings = settings;
 	}
 	
@@ -50,7 +52,8 @@ class Email {
 	void sendActivationCode(
 			String target,
 			String secret,
-			int code) {
+			int code)
+	{
 		String content = "Welcome to " + settings.senderName + ". ";
 		content += "Please click this link to activate your account. ";
 		content += "<a href='" + settings.baseDomain + "/member-activate";
@@ -65,7 +68,8 @@ class Email {
 	void sendResetCode(
 			String target,
 			String secret,
-			int code) {
+			int code)
+	{
 		String content = "";
 		content += "Please click this link to reset your password. ";
 		content += "<a href='" + settings.baseDomain + "/member-recover-reset";
@@ -78,9 +82,10 @@ class Email {
 	}
 }
 
-class EmailSender extends Thread {
-	
-	EmailSender(EmailSettings settings, String t, String s, String c) {
+class EmailSender extends Thread
+{	
+	EmailSender(EmailSettings settings, String t, String s, String c)
+	{
 		this.settings = settings;
 		target  = t;
 		subject = s;
@@ -95,12 +100,13 @@ class EmailSender extends Thread {
 	
 	boolean success = true;
 	
-	@Override public void run() {
+	@Override public void run()
+	{
 		send();
 	}
 	
-	void send() {
-		
+	void send()
+	{	
 		try {
 			Properties p = new Properties();
 			p.put("mail.smtp.auth", "true");
@@ -132,14 +138,18 @@ class EmailSender extends Thread {
 	}
 }
 
-class Detail extends Authenticator {
-	Detail(EmailSettings settings) {
+class Detail extends Authenticator
+{
+	Detail(EmailSettings settings)
+	{
 		this.settings = settings;
 	}
+	
 	EmailSettings settings;
 
 	@Override protected PasswordAuthentication 
-	getPasswordAuthentication() {
+	getPasswordAuthentication()
+	{
 		return new PasswordAuthentication(
 					settings.senderAddress,
 					settings.senderPassword);
