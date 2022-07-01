@@ -45,8 +45,9 @@ footer ul {
 	color: #888;
 }
 .btn-light {
-	background: #d8d8d8;
+	background: #ddd;
+	transition: background .25s linear;
 }
 .btn-light:hover {
-	background: #eee;
+	background: #bbb;
 }
