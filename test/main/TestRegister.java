@@ -45,7 +45,6 @@ public class TestRegister {
 			Member v = repository.save(u);
 			assert v.status.equals("member");
 			activateRepository.deleteById(a.code);
-			
 		} catch (Exception e) { 
 			success = false;
 		}

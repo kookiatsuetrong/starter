@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
-class LogIn 
+class LogIs
 {	
 	@Autowired MemberRepository repository;
 	
@@ -49,7 +49,10 @@ class LogIn
 			// session.setAttribute("member", m);
 			
 			switch (m.status) {
-				case "registered":					
+				case "registered":
+					// model.addAttribute("title",  Message.LogInUnactivated);
+					// model.addAttribute("detail", Message.LogInUnactivatedDetail);
+					
 					model.addAttribute("title",  "Unable to log in");
 					model.addAttribute("detail", "Please activate from your " +
 												"email before continue.");

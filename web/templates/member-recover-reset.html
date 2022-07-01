@@ -2,7 +2,7 @@
 
 <section class="container">
 	<form method="post">
-		<h3>Create New Password</h3>
+		<h3>New Password</h3>
 		<section class="form-floating">
 			<input name="password"
 				   type="password"
@@ -30,15 +30,19 @@
 		<input type="hidden" name="key" value="${secret ! ''}" />
 		<input type="hidden" name="reset" value="${code ! ''}" />
 
-		<button class="btn btn-primary">Create New Password</button>
+		<button class="btn btn-primary">Create Password</button>
 		<a class="btn btn-light" href="/">Cancel</a>
 	</form>
 </section>
 
 <style>
 	form {
-		max-width: 320px;
-		margin: 2rem 0;
+		max-width: 20rem;
+		margin: 2rem auto;
+		padding: 1.5rem;
+		border-radius: .75rem;
+		border: 1px solid #eee;
+		box-shadow: 0 .075rem .1rem #999;
 	}
 </style>
 
