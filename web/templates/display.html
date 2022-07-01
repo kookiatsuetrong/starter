@@ -3,6 +3,12 @@
 <section class="container">
 	<h3>${title ! "..."}</h3>
 	<p>${detail ! "" }</p>
+	<#if member?? >
+		<a class="btn btn-light" href="/member-profile">Profile</a>
+	<#else>
+		<a class="btn btn-light" href="/member-register">Register</a>
+		<a class="btn btn-light" href="/member-login">Log In</a>
+	</#if>
 </section>
 <style>
 	.container {
