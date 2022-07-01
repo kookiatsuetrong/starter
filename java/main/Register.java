@@ -23,9 +23,9 @@ class Register {
 	{
 		Member m = (Member)session.getAttribute("member");
 		if (m == null) {
-			String w = Common.getNumericRandom(4);
+			String w = Tool.getNumericRandom(4);
 			session.setAttribute("numeric", w);
-			String photoCode = Common.createPhotoCode(w);
+			String photoCode = Tool.createPhotoCode(w);
 			model.addAttribute("numeric", photoCode);
 			return "member-register";
 		} else {
@@ -87,12 +87,12 @@ class Register {
 				m.email      = email;
 				m.firstName  = first;
 				m.familyName = family;
-				m.password   = Common.encrypt(password);
+				m.password   = Tool.encrypt(password);
 				Member r     = repository.save(m);
 
 				Activate a = new Activate();
 				a.member   = r.code;
-				a.secret   = Common.random(10);
+				a.secret   = Tool.random(10);
 				a.created  = Instant.now();
 				activateRepository.save(a);
 

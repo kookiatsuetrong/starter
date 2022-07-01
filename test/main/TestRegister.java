@@ -18,7 +18,7 @@ public class TestRegister {
 		m.email      = "user-" + random + "@email.com";
 		m.firstName  = "User";
 		m.familyName = "Family";
-		m.password   = Common.encrypt("user123");
+		m.password   = Tool.encrypt("user123");
 		m.status     = "tested";
 		Member r = repository.save(m);
 		assert r != null;
@@ -26,7 +26,7 @@ public class TestRegister {
 		
 		Activate a = new Activate();
 		a.member  = r.code;
-		a.secret  = Common.random(12);
+		a.secret  = Tool.random(12);
 		Activate c = activateRepository.save(a);
 		assert c != null;
 		

@@ -39,7 +39,7 @@ class Recover
 		
 		Reset r = new Reset();
 		r.member = m.code;
-		r.secret = Common.random(12);
+		r.secret = Tool.random(12);
 		resetRepository.save(r);
 		
 		Email e = new Email(settings);
@@ -111,7 +111,7 @@ class Recover
 		if (success) {
 			resetRepository.deleteById(r.code);
 			Member m = repository.findByCode(r.member);
-			m.password = Common.encrypt(password);
+			m.password = Tool.encrypt(password);
 			repository.save(m);
 			
 			model.addAttribute("title",  "Success");

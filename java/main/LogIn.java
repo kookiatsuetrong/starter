@@ -36,7 +36,7 @@ class LogIn
 		Member m = repository.findByEmail(email);
 		
 		boolean success = false;
-		String encrypted = Common.encrypt(password);
+		String encrypted = Tool.encrypt(password);
 		
 		if (m == null || m.password.equals(encrypted) == false) {
 			model.addAttribute("title",  "Unable to log in");
