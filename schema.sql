@@ -28,8 +28,9 @@ create table members
 	phone        character varying(200)
 );
 
-insert into members(email,first_name,family_name,password)
-	values('user@email.com', 'User', 'Family', upper(sha2('user123', 512)));
+insert into members(email,first_name,family_name,password, status)
+	values('user@email.com', 'User', 'Family', upper(sha2('user123', 512)),
+			'member');
 
 create table activates
 (
