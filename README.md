@@ -3,7 +3,8 @@
 This project is a example
 Spring Boot web service
 and web application.
-The foundataion frameworks
+The foundation frameworks
+in this project
 are Spring Framework 6.0,
 Spring Boot 3.0 and
 Tomcat 10.0.
