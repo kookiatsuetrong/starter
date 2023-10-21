@@ -15,7 +15,7 @@ public class Member {
 	
 	public String password;
 	public String phone = "";
-	public String status = "registered";
+	public String status = "member"; // "registered";
 	
 	public String getEmail()      { return email;      }
 	public String getFirstName()  { return firstName;  }

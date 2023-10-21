@@ -29,8 +29,8 @@ create table members
 );
 
 insert into members(email,first_name,family_name,password, status)
-	values('user@email.com', 'User', 'Family', upper(sha2('user123', 512)),
-			'member');
+	values('user@email.com', 'User', 'Family', upper(sha2('user123', 512)), 
+	'member');
 
 create table activates
 (

@@ -1,16 +1,14 @@
 package main;
 import data.Member;
 import data.Activate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TestRegister {
-	
-	public TestRegister() {
-		repository = Start.context.getBean(MemberRepository.class);
-		activateRepository = Start.context.getBean(ActivateRepository.class);
-	}
-	
-	MemberRepository repository;
-	ActivateRepository activateRepository;
+
+	@Autowired MemberRepository repository;
+	@Autowired ActivateRepository activateRepository;
 	
 	public void testInsertMember() {
 		Member m     = new Member();

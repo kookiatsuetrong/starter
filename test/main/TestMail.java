@@ -1,12 +1,15 @@
 package main;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-/*
+@Component
 public class TestMail {
 
+	@Autowired EmailSettings settings;
+		
 	public void testSendSampleEmail() {
-		EmailSettings s = Start.context.getBean(EmailSettings.class);
-		EmailSender e = new EmailSender(s,
+		EmailSender e = new EmailSender(settings,
 								"beer@fullcodehub.com",
 								"The Subject", 
 								"The Main Content " + new Date() );
@@ -17,4 +20,3 @@ public class TestMail {
 		assert e.success;
 	}
 }
-*/

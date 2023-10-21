@@ -1,7 +1,9 @@
 package main;
+import org.springframework.boot.SpringApplication;
 
 public class Test {
 	public Test() {
-		Start.main(null);
-	}	
+		SpringApplication.run(Initialize.class);
+		assert true;
+	}
 }
