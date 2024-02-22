@@ -10,7 +10,7 @@ public class TestZ {
 	
 	@Autowired ApplicationContext context;
 	
-	TestZ() {
+	public void test() {
 		SpringApplication.exit(context);
 	}
 }

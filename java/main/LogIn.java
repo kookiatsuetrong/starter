@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
-class LogIs
+class LogIn
 {	
 	@Autowired MemberRepository repository;
 	
