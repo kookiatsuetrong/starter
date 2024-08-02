@@ -1,6 +1,6 @@
 ## Spring 6.0 / Spring Boot 3.0 Web Application
 
-This project is a example
+This project is a sample
 Spring Boot web service
 and web application.
 The foundation frameworks
